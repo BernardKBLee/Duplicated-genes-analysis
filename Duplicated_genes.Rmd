@@ -1,0 +1,37 @@
+---
+title: "Duplicated mutated genes analysis"
+editor_options:
+  chunk_output_type: inline
+date: '2020-01-14'
+author: "Bernard Lee"
+output:
+  html_document:
+    df_print: paged
+---
+
+## Load library
+```{r}
+library(tidyverse)
+```
+
+## Read in the data
+```{r}
+df <- read.delim("/Users/mac/OneDrive - Cancer Research Malaysia/PeiSan/_Data/Mutated_Genes.txt", header = TRUE)
+head(df)
+
+trial <- df[df$Protein %in% df$Protein[duplicated(df$Protein)],]
+trial <- trial[order(trial$Protein), ]
+head(trial)
+
+trial2 <- trial
+
+trial2 <- trial2[trial2$Gene %in% trial2$Gene[duplicated(trial2$Gene)],]
+head(trial2)
+
+write.table(trial2, "/Users/mac/OneDrive - Cancer Research Malaysia/PeiSan/_Output/Mutated_Genes_filtered_PS.txt", sep = "\t", quote = FALSE, row.names = FALSE)
+```
+
+```{r}
+sessionInfo()
+```
+
